@@ -21,9 +21,12 @@ w, h, d = original_shape = tuple(image.shape)
 assert d == 3
 image_array = np.reshape(image, (w * h, d))
 
-# print("Fitting model on a small sub-sample of the data")
-# t0 = time()
-image_array_sample = shuffle(image_array, random_state=0)[:50]
+
+image_array_sample = shuffle(image_array, random_state=0)[:150]
+#image_array_sample = image_array[:10]
+#image_array_sample = image_array[np.random.choice(image_array.shape[0], 50, replace=False), :]
+
+
 #kmeans = KMeans(n_clusters=n_colors, random_state=0).fit(image_array_sample)
 #labels = kmeans.predict(image_array)
 
@@ -31,7 +34,6 @@ image_array_sample = shuffle(image_array, random_state=0)[:50]
 k_medoids = k_medoids.PAM(k=n_colors)
 k_medoids.fit(image_array_sample)
 labels = k_medoids.predict(image_array)
-
 
 # Display all results, alongside original image
 # plt.figure(1)

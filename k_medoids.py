@@ -37,9 +37,12 @@ class PAM():
     # Initialize the medoids as random samples
     def _init_random_medoids(self, X):
         n_samples, n_features = np.shape(X) #кол-во примеров, размерность параметров
+
         medoids = np.zeros((self.k, n_features)) #массив из нулей, размерность - кол-во кластеров Х кол-во фич
+
+        #while (len(np.unique(medoids, axis=0)) != self.k):
         for i in range(self.k):
-            medoid = X[np.random.choice(range(n_samples))]
+            medoid = X[np.random.choice(range(n_samples), replace=False)]
             medoids[i] = medoid
         return medoids
 
@@ -110,7 +113,8 @@ class PAM():
         # Iterate until we no longer have a cheaper cost
         i = 0
         while True:
-            print(++i)
+            print("iteration: " + i.__str__())
+            i = i + 1
             best_medoids = medoids
             lowest_cost = cost
             for medoid in medoids:
@@ -120,12 +124,12 @@ class PAM():
                 for sample in non_medoids:
                     # Swap sample with the medoid
                     new_medoids = medoids.copy()
-                    new_medoids[medoids == medoid] = sample
+                    #new_medoids[medoids == medoid] = sample
+                    new_medoids[np.argwhere(medoids == medoid)[0][0]] = sample
                     # Assign samples to new medoids
                     new_clusters = self._create_clusters(X, new_medoids)
                     # Calculate the cost with the new set of medoids
-                    new_cost = self._calculate_cost(
-                        X, new_clusters, new_medoids)
+                    new_cost = self._calculate_cost(X, new_clusters, new_medoids)
                     # If the swap gives us a lower cost we save the medoids and cost
                     if new_cost < lowest_cost:
                         lowest_cost = new_cost
@@ -137,9 +141,10 @@ class PAM():
                 medoids = best_medoids
                 # Else finished
             else:
+                print(lowest_cost)
                 break
 
-        final_clusters = self._create_clusters(X, medoids)
+        final_clusters = new_clusters#self._create_clusters(X, medoids)
         self.cluster_medoids_ = medoids
         # Return the samples cluster indices as labels
         return self._get_cluster_labels(final_clusters, X)
