@@ -9,7 +9,7 @@ import k_medoids
 
 n_colors = 2
 
-image = cv2.imread("pictures/dataset/horse.jpg")
+image = cv2.imread("pictures/dataset/2_corrected.jpg")
 
 #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 image = cv2.cvtColor(image, cv2.COLOR_BGR2Lab)
@@ -22,7 +22,7 @@ assert d == 3
 image_array = np.reshape(image, (w * h, d))
 
 
-image_array_sample = shuffle(image_array, random_state=0)[:150]
+image_array_sample = shuffle(image_array, random_state=0)[:200]
 #image_array_sample = image_array[:10]
 #image_array_sample = image_array[np.random.choice(image_array.shape[0], 50, replace=False), :]
 
@@ -58,7 +58,7 @@ final_image = np.array(final_image, dtype=np.uint8)
 final_image = cv2.cvtColor(final_image, cv2.COLOR_Lab2RGB)
 plt.imshow(final_image)
 final_image = cv2.cvtColor(final_image, cv2.COLOR_RGB2BGR)
-cv2.imwrite("pictures/results/1_corrected_kmedoids_ciede.jpg", final_image)
+cv2.imwrite("pictures/results/2_corrected_kmedoids_ciede.jpg", final_image)
 
 # plt.figure()
 # plt.axis("off")
