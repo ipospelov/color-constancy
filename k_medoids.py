@@ -64,6 +64,8 @@ class PAM():
         for sample_i, sample in enumerate(X): #sample_i - счетчик, sample - элемент в X
             medoid_i = self._closest_medoid(sample, medoids)
             clusters[medoid_i].append(sample_i)
+            if((sample_i + 1) % 10000 == 0):
+                print(sample_i)
         return clusters
 
     # Calculate the cost (total distance between samples and their medoids)
